@@ -11,6 +11,7 @@ namespace Tg_Jom
 	public:
 		MainFrame(wxWindow* parent);
 
+		void fillModsList();
 	};
 }
 #endif

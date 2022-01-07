@@ -9,6 +9,8 @@ bool JomApp::OnInit()
 
 	MainFrame* mainFrame = new MainFrame(NULL);
 
+	mainFrame->fillModsList();
+
 	mainFrame->Show(true);
 
 	return true;
