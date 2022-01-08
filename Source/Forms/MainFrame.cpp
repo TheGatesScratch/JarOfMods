@@ -1,35 +1,54 @@
-#include <filesystem>
-
 #include "MainFrame.h"
-#include "../Util/FileManager.h"
 
 using namespace Tg_Jom;
 
-namespace fs = std::filesystem;
-
 MainFrame::MainFrame(wxWindow* parent) : MainFrameLayout(parent)
 {
-	
+	createBinds();
+	m_dirPicker->SetPath(wxGetUserHome() + "\\AppData\\Roaming\\.minecraft\\mods");
+	updateModsList();
 }
 
-void MainFrame::fillModsList()
+MainFrame::~MainFrame()
 {
-	if (!m_dataViewList->ClearColumns())
+	removeBinds();
+}
+
+void MainFrame::createBinds()
+{
+	m_dirPicker->Bind(wxEVT_DIRPICKER_CHANGED, &MainFrame::handleDirPickerChanged, this);
+}
+
+void MainFrame::removeBinds()
+{
+	m_dirPicker->Unbind(wxEVT_DIRPICKER_CHANGED, &MainFrame::handleDirPickerChanged, this);
+}
+
+void MainFrame::handleDirPickerChanged(wxCommandEvent& e)
+{
+	updateModsList();
+}
+
+void MainFrame::fillModsList(std::vector<fs::directory_entry> entries)
+{
+	m_dataViewListMods->ClearColumns();
+	m_dataViewListMods->DeleteAllItems();
+
+	m_dataViewListMods->AppendTextColumn("mods");
+
+	for (fs::directory_entry de : entries)
 	{
-		return;	//TODO Error handling.
+		m_dataViewListMods->AppendItem(VectorHelper::createSingleElement(de.path().stem().string()));
 	}
+}
 
-	m_dataViewList->AppendToggleColumn("Enabled");
-	m_dataViewList->AppendTextColumn("File");
+void MainFrame::updateModsList()
+{
+	std::string path = m_dirPicker->GetTextCtrlValue().ToStdString();
 
-	std::vector<fs::directory_entry> files = FileManager::getFiles("C:/Users/mtkar/AppData/Roaming/.minecraft/mods", ".jar");
-
-	for (fs::directory_entry de : files)
+	if (!FileManager::isValidDirPath(path))
 	{
-		wxVector<wxVariant> data;
-		data.push_back(wxVariant(false));
-		// Stem = name without extention.
-		data.push_back(wxVariant(de.path().stem().string()));
-		m_dataViewList->AppendItem(data);
+		return;
 	}
+	fillModsList(FileManager::getFilesInDir(path, ".jar"));
 }

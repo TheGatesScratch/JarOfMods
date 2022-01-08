@@ -1,6 +1,7 @@
 #pragma once
 
 #include <filesystem>
+#include <optional>
 
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
@@ -19,6 +20,7 @@ namespace Tg_Jom
 	class FileManager
 	{
 	public:
-		static std::vector<fs::directory_entry> getFiles(fs::path path, std::string extentionFilter);
+		static std::vector<fs::directory_entry> getFilesInDir(fs::path path, std::string extentionFilter);
+		static bool isValidDirPath(std::string);
 	};
 }

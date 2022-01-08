@@ -24,6 +24,7 @@
     <ClCompile Include="Source\JomApp.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Util\FileManager.cpp" />
+    <ClCompile Include="Source\Util\VectorHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitattributes" />
@@ -35,6 +36,7 @@
     <ClInclude Include="Source\Forms\MainFrame.h" />
     <ClInclude Include="Source\JomApp.h" />
     <ClInclude Include="Source\Util\FileManager.h" />
+    <ClInclude Include="Source\Util\VectorHelper.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

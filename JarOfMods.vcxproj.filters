@@ -30,6 +30,9 @@
     <ClCompile Include="Source\Util\FileManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Util\VectorHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\JOMForm.fbp" />
@@ -47,6 +50,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Util\FileManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Util\VectorHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

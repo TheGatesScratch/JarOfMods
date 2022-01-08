@@ -9,15 +9,21 @@
 
 #include <wx/artprov.h>
 #include <wx/xrc/xmlres.h>
-#include <wx/dataview.h>
+#include <wx/string.h>
+#include <wx/stattext.h>
 #include <wx/gdicmn.h>
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
-#include <wx/string.h>
+#include <wx/dataview.h>
 #include <wx/filepicker.h>
+#include <wx/sizer.h>
 #include <wx/richtext/richtextctrl.h>
-#include <wx/gbsizer.h>
+#include <wx/button.h>
+#include <wx/bitmap.h>
+#include <wx/image.h>
+#include <wx/icon.h>
+#include <wx/panel.h>
 #include <wx/frame.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -32,9 +38,22 @@ namespace Tg_Jom
 		private:
 
 		protected:
-			wxDataViewListCtrl* m_dataViewList;
-			wxDirPickerCtrl* m_directoryPicker;
-			wxRichTextCtrl* m_richText;
+			wxStaticText* m_staticTextMods;
+			wxDataViewListCtrl* m_dataViewListMods;
+			wxDirPickerCtrl* m_dirPicker;
+			wxStaticText* m_staticTextDescription;
+			wxRichTextCtrl* m_richTextDescription;
+			wxStaticText* m_staticTextControl;
+			wxPanel* m_buttonsPanel;
+			wxStaticText* m_staticTextPanelMods;
+			wxButton* m_buttonAddMod;
+			wxButton* m_buttonRemoveMod;
+			wxStaticText* m_staticTextPanelGroup;
+			wxButton* m_buttonAddGroup;
+			wxButton* m_buttonRemoveGroup;
+			wxButton* m_buttonAddGroup1;
+			wxStaticText* m_staticTextGroups;
+			wxDataViewListCtrl* m_dataViewListGroups;
 
 		public:
 
