@@ -2,8 +2,7 @@
 #define __MainFrame__
 
 #include <filesystem>
-
-#include <filesystem>
+#include <fstream>
 #include <optional>
 
 #include "Layout.h"
@@ -14,8 +13,6 @@ namespace Tg_Jom
 {
 	namespace fs = std::filesystem;
 
-	
-
 	class MainFrame : public MainFrameLayout
 	{
 		
@@ -23,14 +20,30 @@ namespace Tg_Jom
 		MainFrame(wxWindow* parent);
 		~MainFrame();
 
-		void createBinds();
-		void removeBinds();
+		void init();
 
-		void fillModsList(std::vector<fs::directory_entry>);
 		void updateModsList();
+		void updateGroupsList();
 
 	protected:
 		void handleDirPickerChanged(wxCommandEvent&);
+
+	private:
+		const static fs::path settingsFileName;
+		fs::path modsDirectory;
+		fs::path settingsFilePath;
+		fs::path workingDirectory;
+
+		FileManager* fileManager;
+
+		void initDirectories();
+
+		void fillList(wxDataViewListCtrl*, std::vector<std::string>);
+
+		void createBinds();
+		void removeBinds();
+
+		
 	};
 }
 #endif

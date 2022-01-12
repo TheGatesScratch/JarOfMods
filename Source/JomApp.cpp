@@ -9,6 +9,7 @@ bool JomApp::OnInit()
 
 	MainFrame* mainFrame = new MainFrame(NULL);
 
+	mainFrame->init();
 	mainFrame->Show(true);
 
 	return true;

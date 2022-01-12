@@ -2,16 +2,34 @@
 
 using namespace Tg_Jom;
 
+const fs::path MainFrame::settingsFileName = "JomSettings.json";
+
 MainFrame::MainFrame(wxWindow* parent) : MainFrameLayout(parent)
 {
-	createBinds();
-	m_dirPicker->SetPath(wxGetUserHome() + "\\AppData\\Roaming\\.minecraft\\mods");
+	fileManager = new FileManager();
+}
+
+void MainFrame::initDirectories()
+{
+	workingDirectory = wxGetCwd().ToStdWstring();
+	settingsFilePath = workingDirectory / settingsFileName;
+	fileManager->loadDocument(settingsFilePath);
+	modsDirectory = fileManager->readKey("modsfolder");
+}
+
+void MainFrame::init()
+{
+	initDirectories();
+
 	updateModsList();
+
+	createBinds();
 }
 
 MainFrame::~MainFrame()
 {
 	removeBinds();
+	delete(fileManager);
 }
 
 void MainFrame::createBinds()
@@ -26,29 +44,39 @@ void MainFrame::removeBinds()
 
 void MainFrame::handleDirPickerChanged(wxCommandEvent& e)
 {
+	modsDirectory = m_dirPicker->GetTextCtrlValue().ToStdString();
 	updateModsList();
 }
 
-void MainFrame::fillModsList(std::vector<fs::directory_entry> entries)
+void MainFrame::fillList(wxDataViewListCtrl* list, std::vector<std::string> entries)
 {
 	m_dataViewListMods->ClearColumns();
 	m_dataViewListMods->DeleteAllItems();
 
-	m_dataViewListMods->AppendTextColumn("mods");
+	m_dataViewListMods->AppendTextColumn("list");
 
-	for (fs::directory_entry de : entries)
+	for (std::string s : entries)
 	{
-		m_dataViewListMods->AppendItem(VectorHelper::createSingleElement(de.path().stem().string()));
+		m_dataViewListMods->AppendItem(VectorHelper::createSingleElement(s));
 	}
 }
 
+// TODO async.
 void MainFrame::updateModsList()
 {
-	std::string path = m_dirPicker->GetTextCtrlValue().ToStdString();
-
-	if (!FileManager::isValidDirPath(path))
+	if (!FileManager::isValidDirPath(modsDirectory))
 	{
-		return;
+		return; // TODO Error handling.
 	}
-	fillModsList(FileManager::getFilesInDir(path, ".jar"));
+	std::vector<std::string> strings;
+	for (fs::directory_entry entry : FileManager::getFilesInDir(modsDirectory, ".jar"))
+	{
+		strings.push_back(entry.path().stem().string());
+	}
+	fillList(m_dataViewListMods, strings);
+}
+
+void MainFrame::updateGroupsList()
+{
+
 }
